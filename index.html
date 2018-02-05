@@ -18,7 +18,7 @@
 	        <span data-bind = "foreach : placesList" >
 	          
             <div class = "places-content" >
-              <a href="#" data-bind="text: $data.place"> </a>
+              <a href="#" data-bind="text: $data.place,, click:$parent.itemClick"> </a>
             </div>
       		</span>
 

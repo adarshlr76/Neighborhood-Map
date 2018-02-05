@@ -59,7 +59,7 @@ function initMap() {
     	position = all_locations[i].location;
     	title = all_locations[i].place;
 
-       	setMarker(position,title);
+       	createMarker(position,title);
        	//console.log(all_locations[i].place);
  		bounds.extend(markers[i].position);
       
@@ -71,7 +71,7 @@ function initMap() {
 }
 
 
-function setMarker(position,title) {
+function createMarker(position,title) {
 
 
 
@@ -89,6 +89,13 @@ function setMarker(position,title) {
         populateInfoWindow(this, largeInfowindow);
     });
     
+}
+
+function displayInfoWindow(marker) {
+	var largeInfowindow = new google.maps.InfoWindow();
+	populateInfoWindow(marker,largeInfowindow);
+
+
 }
 
 
@@ -118,6 +125,27 @@ var ViewModel = function() {
 	self = this;
 	
 	this.placesList = ko.observableArray([]);
+		this.markerId = ko.observable(0);
+
+	this.currentLocation = ko.observable(this.placesList()[0]);
+
+	this.itemClick = function (Location) {
+		for (var i = 0; i < all_locations.length; i++) {
+			if(Location.place() === all_locations[i].place) {
+				console.log(i);
+				displayInfoWindow(markers[i]);
+
+				//this.markerId(i);
+				break;
+			}
+		}
+
+		//this.markerId(this.count() + 1);
+	
+	}
+	// Creating click for the list item
+    
+
 
 	for (var i = 0; i < all_locations.length; i++) {
 
@@ -126,13 +154,7 @@ var ViewModel = function() {
 		//geocodeAddress(placeDtls.place);
 		//console.log(placeDtls);
 	}
-	
-	this.currentLocation = ko.observable(this.placesList()[0]);
 
-	
-	/*this.selectedLocation = function(selectedPlace){
-		self.currentLocation(selectedPlace);
-	}*/
 
 }
 ko.applyBindings(new ViewModel());
