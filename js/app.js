@@ -27,47 +27,39 @@ var all_locations = [
 ];
 */
 function initMap() {
-    var bounds = new google.maps.LatLngBounds();
-    var position ;
-    var title ;
-
-    //var bounds = window.mapBounds;            // current boundaries of the map window
-
-    // Create a styles array to use with the map.
-    
-       
-
+    // Constructor creates a new map - only center and zoom are required.
     map = new google.maps.Map(document.getElementById('map'), {
-        zoom: 13,
+        center: {lat: 40.7413549, lng: -73.9980244},
+        zoom: 13
     });
-    var autocomplete = new google.maps.places.Autocomplete(document.getElementById('filter-to-area-text'));
-    // Bind the map's bounds (viewport) property to the autocomplete object,
-    // so that the autocomplete requests use the current map bounds for the
-    // bounds option in the request.
-    autocomplete.bindTo('bounds', map);
 
 
+    var largeInfowindow = new google.maps.InfoWindow();
+    var bounds = new google.maps.LatLngBounds();
 
-   /*
-   for an array of locations 
-   fires off Google place searches for each location. 
-   */
-   // Iterates through the array of locations, creates a search object for each location
-
-
+    // The following group uses the location array to create an array of markers on initialize.
     for (var i = 0; i < all_locations.length; i++) {
-    	position = all_locations[i].location;
-    	title = all_locations[i].place;
-
-       	createMarker(position,title);
-       	//console.log(all_locations[i].place);
- 		bounds.extend(markers[i].position);
-      
+        // Get the position from the location array.
+        var position = all_locations[i].location;
+        var title = all_locations[i].place;
+        // Create a marker per location, and put into markers array.
+        var marker = new google.maps.Marker({
+            map: map,
+            position: position,
+            title: title,
+            animation: google.maps.Animation.DROP,
+            id: i
+        });
+        // Push the marker to our array of markers.
+        markers.push(marker);
+        // Create an onclick event to open an infowindow at each marker.
+        marker.addListener('click', function() {
+            populateInfoWindow(this, largeInfowindow);
+        });
+          bounds.extend(markers[i].position);
     }
+        // Extend the boundaries of the map for each marker
     map.fitBounds(bounds);
-
-  
-
 }
 
 
@@ -76,6 +68,7 @@ function createMarker(position,title) {
 
 
   	var largeInfowindow = new google.maps.InfoWindow();
+
     var marker = new google.maps.Marker({
         title : title,
         position: position,
@@ -91,13 +84,6 @@ function createMarker(position,title) {
     
 }
 
-function displayInfoWindow(marker) {
-	var largeInfowindow = new google.maps.InfoWindow();
-	populateInfoWindow(marker,largeInfowindow);
-
-
-}
-
 
 // This function populates the infowindow when the marker is clicked. We'll only allow
 // one infowindow which will open at the marker that is clicked, and populate based
@@ -105,6 +91,7 @@ function displayInfoWindow(marker) {
 function populateInfoWindow(marker, infowindow) {
     // Check to make sure the infowindow is not already opened on this marker.
     if (infowindow.marker != marker) {
+
         infowindow.marker = marker;
         infowindow.setContent('<div>' + marker.title + '</div>');
         infowindow.open(map, marker);
@@ -133,7 +120,7 @@ var ViewModel = function() {
 		for (var i = 0; i < all_locations.length; i++) {
 			if(Location.place() === all_locations[i].place) {
 				console.log(i);
-				displayInfoWindow(markers[i]);
+	 			google.maps.event.trigger(markers[i], "click");
 
 				//this.markerId(i);
 				break;
