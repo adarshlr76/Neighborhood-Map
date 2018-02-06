@@ -47,7 +47,7 @@ var Location = function(data) {
 
 
 
-}
+};
 
 var ViewModel = function() {
 	self = this;
@@ -62,16 +62,7 @@ var ViewModel = function() {
 		this.URL = "";
 		this.street = "";
 		this.city = "";
-		//this.contentString = "";
-
-
-
-		 var foursquareUrl = baseUrl 
-		 				+ fsParam 
-		 				+ this.lat + "," + this.long 
-		 				+ fsClient_id 
-		 				+ fsClient_secret 
-		 				+ fsVersion;
+		 var foursquareUrl = baseUrl+fsParam+this.lat+","+this.long+fsClient_id+fsClient_secret+fsVersion;
 		$.getJSON(foursquareUrl).done(function(data) {
 			var results = data.response.venues[0];
 			this.URL = results.url;
@@ -82,17 +73,14 @@ var ViewModel = function() {
 	     	this.city = results.location.formattedAddress[1];
 
 	     	var contentString = '<div class="info-window-content"><div class="title"><b>' 
-	     	+ this.name + "</b></div>" +
-	        '<div class="content"><a href="' + this.URL +'">' + this.URL + "</a></div>" +
-	        '<div class="content">' + this.street + "</div>" +
-	        '<div class="content">' + this.city + "</div>";
+	     	+ this.name + "</b></div>"+'<div class="content"><a href="' + this.URL +'">' + this.URL + "</a></div>" +'<div class="content">' + this.street + "</div>" +'<div class="content">' + this.city + "</div>";
 	        //console.log(contentString);
 	        return contentString;
 	      	
 		}).fail(function() {
 			console.log("There was an error with the Foursquare API call. Please refresh the page and try again to load Foursquare data.");
 		});
-	}
+};
 	
 //		this.markerId = ko.observable(0);
 
@@ -137,7 +125,7 @@ var ViewModel = function() {
 
 		//this.markerId(this.count() + 1);
 	
-	}
+	};
 
 // This function populates the infowindow when the marker is clicked. We'll only allow
 // one infowindow which will open at the marker that is clicked, and populate based
@@ -161,7 +149,7 @@ var ViewModel = function() {
 	        });
 
 	    }
-	}
+	};
 
 	this.initMap = function() {
 	    // Constructor creates a new map - only center and zoom are required.
@@ -203,7 +191,7 @@ var ViewModel = function() {
 	    }
 	        // Extend the boundaries of the map for each marker
 	    map.fitBounds(bounds);
-	}
+	};
 
 	// Creating click for the list item
     
