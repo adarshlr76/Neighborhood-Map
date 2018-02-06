@@ -72,15 +72,14 @@ var ViewModel = function() {
 			this.street = results.location.formattedAddress[0];
 	     	this.city = results.location.formattedAddress[1];
 
-	     	var contentString = '<div class="info-window-content"><div class="title"><b>' 
-	     	+ this.name + "</b></div>"+'<div class="content"><a href="' + this.URL +'">' + this.URL + "</a></div>" +'<div class="content">' + this.street + "</div>" +'<div class="content">' + this.city + "</div>";
+	     	var contentString = '<div class="info-window-content"><div class="title"><b>'+ this.name + "</b></div>"+'<div class="content"><a href="' + this.URL +'">' + this.URL + "</a></div>" +'<div class="content">' + this.street + "</div>" +'<div class="content">' + this.city + "</div>";
 	        //console.log(contentString);
 	        return contentString;
 	      	
 		}).fail(function() {
 			console.log("There was an error with the Foursquare API call. Please refresh the page and try again to load Foursquare data.");
 		});
-};
+	};
 	
 //		this.markerId = ko.observable(0);
 
@@ -243,7 +242,7 @@ var ViewModel = function() {
 	 });
 */
 
-}
+};
 function start(){
 	ko.applyBindings(new ViewModel());
 }
