@@ -152,7 +152,7 @@ var ViewModel = function() {
 	    if (infowindow.marker != marker) {
 
 	        infowindow.marker = marker;
-	        //infowindow.setContent('<div>' + marker.title + '</div>');
+	        infowindow.setContent('<div>' + marker.title + '</div>');
 	        //infowindow.setContent(self.placesList().contentString);
 	        infowindow.open(map, marker);
 	        // Make sure the marker property is cleared if the infowindow is closed.
