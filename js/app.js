@@ -118,7 +118,9 @@ var ViewModel = function() {
 	    if (infowindow.marker != marker) {
 
 	        infowindow.marker = marker;
-	        infowindow.setContent('<div id="info-window-content">' + marker.title + '</div>');
+	        infowindow.setContent('<div>' + marker.title + '</div>');
+	        
+	        //infowindow.setContent(self.contentString);
 	        infowindow.open(map, marker);
 	        // Make sure the marker property is cleared if the infowindow is closed.
 	        infowindow.addListener('closeclick',function(){
@@ -127,6 +129,7 @@ var ViewModel = function() {
 
 	    }
 	}
+
 	this.initMap = function() {
 	    // Constructor creates a new map - only center and zoom are required.
 	    map = new google.maps.Map(document.getElementById('map'), {
@@ -152,7 +155,7 @@ var ViewModel = function() {
 	            id: i
 	        });
 	        
-
+	        //self.contentString = '<div>'+ title +'</div>';
 	        largeInfowindow = new google.maps.InfoWindow();
 	        // Push the marker to our array of markers.
 	        markers.push(marker);
