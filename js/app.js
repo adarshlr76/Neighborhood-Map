@@ -97,6 +97,7 @@ var Location = function(data) {
 
 	this.place = ko.observable(data.place);
 	this.visible = ko.observable(true);
+	this.markerId = ko.observable(0);
 
 	/*this.showMarker = ko.computed(function() {
 		if(this.visible() === true) {
@@ -123,6 +124,7 @@ var ViewModel = function() {
 		if (!filter) {
 			self.placesList().forEach(function(locationItem){
 				locationItem.visible(true);
+				markers[locationItem.markerId()].setMap(map);
 			});
 			return self.placesList();
 		} else {
@@ -132,6 +134,11 @@ var ViewModel = function() {
 				var string = locationItem.place().toLowerCase();
 				var result = (string.search(filter) >= 0);
 				locationItem.visible(result);
+				if(result === true) {
+					markers[locationItem.markerId()].setMap(map);
+				} else {
+					markers[locationItem.markerId()].setMap(null);
+				}
 				return result;
 			});
 		}
@@ -159,6 +166,7 @@ var ViewModel = function() {
 	for (var i = 0; i < all_locations.length; i++) {
 
 		self.placesList().push(new Location(all_locations[i]));
+		self.placesList()[i].markerId(i);
 
 
 	}
