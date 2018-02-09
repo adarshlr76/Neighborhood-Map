@@ -37,30 +37,38 @@ var ViewModel = function() {
 	this.searchTerm = ko.observable("");
 	this.placesList = ko.observableArray([]);
 
-	this.getFoursquareData = function(data){
-		
-		this.name = data.place;
-		this.lat = data.location.lat;
-		this.long = data.location.lng;
-		this.URL = "";
-		this.street = "";
-		this.city = "";
-		 var foursquareUrl = baseUrl+fsParam+this.lat+","+this.long+fsClient_id+fsClient_secret+fsVersion;
+	this.getFoursquareData = function(data,iw){
+	
+		var name = data.place;
+		var lat = data.location.lat;
+		var long = data.location.lng;
+		var URL = "";
+		var street = "";
+		var city = "";
+		var contentString = "";
+		//this.iw = infowindow;
+
+		 var foursquareUrl = baseUrl+fsParam+lat+","+long+fsClient_id+fsClient_secret+fsVersion;
 		$.getJSON(foursquareUrl).done(function(data) {
 			var results = data.response.venues[0];
-			this.URL = results.url;
-			if (typeof this.URL === 'undefined'){
-				this.URL = "";
+			URL = results.url;
+			if (typeof URL === 'undefined'){
+				URL = "";
 			}
-			this.street = results.location.formattedAddress[0];
-	     	this.city = results.location.formattedAddress[1];
+			street = results.location.formattedAddress[0];
+	     	city = results.location.formattedAddress[1];
 
-	     	var contentString = '<div class="info-window-content"><div class="title"><b>'+ this.name + "</b></div>"+'<div class="content"><a href="' + this.URL +'">' + this.URL + "</a></div>" +'<div class="content">' + this.street + "</div>" +'<div class="content">' + this.city + "</div>";
-	        //return contentString;
+			contentString = '<div class="info-window-content"><div class="title"><b>'+ name + "</b></div>"+'<div class="content"><a href="' + URL +'">' + URL + "</a></div>" +'<div class="content">' + street + "</div>" +'<div class="content">' + city + "</div>";
+	    	console.log(contentString);
+   			infowindow.setContent(contentString);
+
 	      	
 		}).fail(function() {
 			alert("There was an error with the Foursquare API call. Please refresh the page and try again to load Foursquare data.");
 		});
+		
+
+
 	};
 	
 
@@ -108,6 +116,7 @@ var ViewModel = function() {
 	this.populateInfoWindow = function () {
 		
 		var index = this.id;
+
 		markers[index].setAnimation(google.maps.Animation.BOUNCE);
       		setTimeout(function() {
       			markers[index].setAnimation(null);
@@ -119,6 +128,9 @@ var ViewModel = function() {
 	        infowindow.marker = this;
 	        infowindow.setContent('<div>' + this.title + '</div>');
 	        //infowindow.setContent(self.placesList().contentString);
+	        self.getFoursquareData(all_locations[index],infowindow);
+
+
 	        infowindow.open(this.map, this);
 	        
 	        // Make sure the marker property is cleared if the infowindow is closed.
@@ -156,10 +168,9 @@ var ViewModel = function() {
 	            id: i
 	        });
 
-	        
-	        self.getFoursquareData(all_locations[i]);
-	        console.log(self.contentString);
-	        infowindow = new google.maps.InfoWindow();
+	       	infowindow = new google.maps.InfoWindow();
+
+	        //self.getFoursquareData(all_locations[i],infowindow);
 	        // Push the marker to our array of markers.
 	        markers.push(marker);
 	        google.maps.event.addListener(marker, "click", self.populateInfoWindow);
@@ -181,39 +192,6 @@ var ViewModel = function() {
 
 	}
 	this.initMap();
-
-	
-	/*self.getFoursquareData = ko.computed(function(){
-	 	all_locations.forEach(function(x) {
-	 	 	//console.log(x.location.lat);
-	 	 	var foursquareUrl = baseUrl 
-	 	 	 					+ fsParam 
-	 	 	 					+ x.location.lat + "," + x.location.lng 
-	 	 	 					+ fsClient_id 
-	 	 	 					+ fsClient_secret 
-	 	 	 					+ fsVersion;
-	 	 	$.ajax({
-          		type: "GET",
-          		url: foursquareUrl,
-          		dataType: "json",
-          		cache: false,
-          		success: function(data) {
-	            	var response = data.response ? data.response : "";
-	            	var venue = response.venue ? data.venue : "";
-	            	console.log(response.venue["name"]);
-	            	//return response.venue["name"];
-	            	self.fsList().push(response.venue["name"]);
-
-	                x.name = response.venue["name"];
-	                x.shortUrl = response.venue["shortUrl"];
-	                x.photoUrl = response.venue.bestPhoto["prefix"] + "height150" +
-	                response.venue.bestPhoto["suffix"];
-          		}
-			});
-	 	});
-	 });
-*/
-
 };
 function start(){
 	ko.applyBindings(new ViewModel());
