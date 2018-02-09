@@ -4,7 +4,8 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 
 	<link href="css/style.css" rel="stylesheet">
-	<meta charset="utf-8"/>
+	<meta charset = "utf-8" name="viewport" content="width=device-width, initial-scale=1.0">
+
 
 <style type="text/css">
     
@@ -13,12 +14,11 @@
 <body> 
 		<div class="col-sm-4"  >
 			
-	        <input id="filter-to-area-text" placeholder = "Station Location" data-bind="textInput: searchTerm, valueUpdate: 'afterkeydown'" />
+	        <input id="filter-to-area-text" placeholder = "Station Location" data-bind="textInput: searchTerm, valueUpdate: 'afterkeydown'" /><br>
 	        <!--input id="filter-to-area" type="button" value="Filter"--> 
-	        <hr>
 	        <span data-bind = "foreach : filteredList" >
 	          
-            <div class = "places-content" >
+            <div id = "places-content" >
               <a href="#" data-bind="text: $data.place,, click:$parent.itemClick"> </a>
             </div>
       		</span>

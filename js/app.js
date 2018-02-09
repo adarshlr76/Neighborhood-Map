@@ -13,21 +13,6 @@ var all_locations = [
     {place: 'Chinatown Homey Space', location: {lat: 40.7180628, lng: -73.9961237}}
 ];
 
-/*
-var all_locations = [
-	{place : 'Statue of Liberty'},
-	{place : ' Central Park'},
-	{place : ' Rockefeller Center and Top of the Rock Observation Deck'},
-	{place : 'Metropolitan Museum of Art'},
-	{place : 'Broadway and the Theater District'},
-	{place : 'Empire State Building'},
-	{place : ' 9/11 Memorial and Museum'},
-	{place : 'Times Square'},
-	{place : 'Brooklyn Bridge'},
-	{place : 'Fifth Avenue'},
-	{place : 'Grand Central Terminal'}
-];
-*/
 // Foursquare API Url parameters in global scope
 var baseUrl = "https://api.foursquare.com/v2/",
 	fsParam = "venues/search?ll=",
@@ -39,10 +24,8 @@ var baseUrl = "https://api.foursquare.com/v2/",
 
 
 var Location = function(data) {
-	//self = this;
 
 	this.place = ko.observable(data.place);
-	//this.visible = ko.observable(true);
 	this.markerId = ko.observable(0);
 
 
@@ -73,33 +56,26 @@ var ViewModel = function() {
 	     	this.city = results.location.formattedAddress[1];
 
 	     	var contentString = '<div class="info-window-content"><div class="title"><b>'+ this.name + "</b></div>"+'<div class="content"><a href="' + this.URL +'">' + this.URL + "</a></div>" +'<div class="content">' + this.street + "</div>" +'<div class="content">' + this.city + "</div>";
-	        //console.log(contentString);
-	        return contentString;
+	        //return contentString;
 	      	
 		}).fail(function() {
-			console.log("There was an error with the Foursquare API call. Please refresh the page and try again to load Foursquare data.");
+			alert("There was an error with the Foursquare API call. Please refresh the page and try again to load Foursquare data.");
 		});
 	};
 	
-//		this.markerId = ko.observable(0);
-
-	//this.currentLocation = ko.observable(this.placesList()[0]);
 
 	this.filteredList = ko.computed( function() {
 		var filter = self.searchTerm().toLowerCase();
 		if (!filter) {
 			self.placesList().forEach(function(locationItem){
-				//locationItem.visible(true);
 				markers[locationItem.markerId()].setMap(map);
 			});
 			return self.placesList();
 		} else {
 			return ko.utils.arrayFilter(self.placesList(), function(locationItem) {
-				//console.log(locationItem.place());
 
 				var string = locationItem.place().toLowerCase();
 				var result = (string.search(filter) >= 0);
-				//locationItem.visible(result);
 				if(result === true) {
 					markers[locationItem.markerId()].setMap(map);
 				} else {
@@ -131,6 +107,11 @@ var ViewModel = function() {
 // on that markers position.
 	this.populateInfoWindow = function () {
 		
+		var index = this.id;
+		markers[index].setAnimation(google.maps.Animation.BOUNCE);
+      		setTimeout(function() {
+      			markers[index].setAnimation(null);
+     		}, 2100);
 
 	    // Check to make sure the infowindow is not already opened on this marker.
 	    if (infowindow.marker != this) {
@@ -139,10 +120,7 @@ var ViewModel = function() {
 	        infowindow.setContent('<div>' + this.title + '</div>');
 	        //infowindow.setContent(self.placesList().contentString);
 	        infowindow.open(this.map, this);
-	        infowindow.marker.setAnimation(google.maps.Animation.BOUNCE);
-      		setTimeout(function() {
-      			infowindow.marker.setAnimation(null);
-     		}, 2100);
+	        
 	        // Make sure the marker property is cleared if the infowindow is closed.
 	        infowindow.addListener('closeclick',function(){
 	        	infowindow.setMarker = null;
@@ -179,18 +157,12 @@ var ViewModel = function() {
 	        });
 
 	        
-	        self.contentString = self.getFoursquareData(all_locations[i]);
+	        self.getFoursquareData(all_locations[i]);
 	        console.log(self.contentString);
 	        infowindow = new google.maps.InfoWindow();
 	        // Push the marker to our array of markers.
 	        markers.push(marker);
 	        google.maps.event.addListener(marker, "click", self.populateInfoWindow);
-	        // Create an onclick event to open an infowindow at each marker.
-	        /*marker.addListener('click', function() {
-	            self.populateInfoWindow(this, infowindow);
-
-
-	        });*/
 	          bounds.extend(markers[i].position);
 	    }
 	        // Extend the boundaries of the map for each marker
