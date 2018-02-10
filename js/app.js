@@ -4,14 +4,7 @@ var markers = [];
 var infowindow;
 //var geocoder;
 
-var all_locations = [
-    {place: 'Park Ave Penthouse', location: {lat: 40.7713024, lng: -73.9632393}},
-    {place: 'Chelsea Loft', location: {lat: 40.7444883, lng: -73.9949465}},
-    {place: 'Union Square Open Floor Plan', location: {lat: 40.7347062, lng: -73.9895759}},
-    {place: 'East Village Hip Studio', location: {lat: 40.7281777, lng: -73.984377}},
-    {place: 'TriBeCa Artsy Bachelor Pad', location: {lat: 40.7195264, lng: -74.0089934}},
-    {place: 'Chinatown Homey Space', location: {lat: 40.7180628, lng: -73.9961237}}
-];
+
 
 // Foursquare API Url parameters in global scope
 var baseUrl = "https://api.foursquare.com/v2/",
@@ -59,7 +52,6 @@ var ViewModel = function() {
 	     	city = results.location.formattedAddress[1];
 
 			contentString = '<div class="info-window-content"><div class="title"><b>'+ name + "</b></div>"+'<div class="content"><a href="' + URL +'">' + URL + "</a></div>" +'<div class="content">' + street + "</div>" +'<div class="content">' + city + "</div>";
-	    	console.log(contentString);
    			infowindow.setContent(contentString);
 
 	      	
@@ -195,4 +187,9 @@ var ViewModel = function() {
 };
 function start(){
 	ko.applyBindings(new ViewModel());
+}
+// Ehandling errors while loading te map from google api
+function googleMapsErrorHandler(){
+    console.log('Error: Google maps API has not loaded');
+    $('body').prepend('<p id="map-error">Sorry we are having trouble loading google maps API, please try again in a moment.</p>');
 }
