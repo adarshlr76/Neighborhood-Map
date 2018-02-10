@@ -10,21 +10,19 @@ h3,
 h4,
 h5,
 h6 {
-  padding: 0;
-  margin: 0;
-  font-family: "Roboto", sans-serif;
+    padding: 0;
+    margin: 0;
+    font-family: "Roboto", sans-serif;
 }
 
-
-
 #filter-to-area-text {
-        position: relative;
-        width: 94%;
-      }
+    position: relative;
+    width: 94%;
+}
 
 #filter-to-area {
-        width: 24%;
-      }
+    width: 24%;
+}
 
 #places-content a {
     color: black;
@@ -33,21 +31,18 @@ h6 {
     display: block;
 }
 
-#places-content a:hover {background-color: #ddd}
+#places-content a:hover {
+    background-color: #ddd;
+}
 
 #places-content:hover .places-content {
     display: block;
 }
 
-
-
-
-
- 
-  #map {
-        bottom:0px;
-        height: 100%;
-        left: 462px;
-        position: absolute;
-        right: 5px;
-      }   
+#map {
+    bottom: 0px;
+    height: 100%;
+    left: 462px;
+    position: absolute;
+    right: 5px;
+}   
