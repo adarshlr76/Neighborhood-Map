@@ -14,7 +14,6 @@ var baseUrl = "https://api.foursquare.com/v2/",
 
 
 
-
 var Location = function(data) {
 
     this.place = ko.observable(data.place);
@@ -186,4 +185,14 @@ function start() {
 function googleMapsErrorHandler() {
     console.log('Error: Google maps API has not loaded');
     $('body').prepend('<p id="map-error">Sorry we are having trouble loading google maps API, please try again in a moment.</p>');
+}
+
+function toggleNav() {
+    var x = document.getElementById("list-sidebar");
+    if (x.style.display === "none") {
+        x.style.display = "block";
+    } else {
+        x.style.display = "none";
+    }
+
 }

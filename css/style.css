@@ -1,48 +1,27 @@
 html,
-body,
-div,
-ul,
-li,
-p,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-    padding: 0;
+body {
+    font-size: 14px;
+    height: 100%;
     margin: 0;
-    font-family: "Roboto", sans-serif;
-}
-
-#filter-to-area-text {
-    position: relative;
-    width: 94%;
-}
-
-#filter-to-area {
-    width: 24%;
-}
-
-#places-content a {
-    color: black;
-    padding: 12px 16px;
-    text-decoration: none;
-    display: block;
-}
-
-#places-content a:hover {
-    background-color: #ddd;
-}
-
-#places-content:hover .places-content {
-    display: block;
+    padding-top: 25px;
+    background-color: black;
 }
 
 #map {
-    bottom: 0px;
     height: 100%;
-    left: 462px;
-    position: absolute;
-    right: 5px;
-}   
+}
+/* Side bar */
+#list-sidebar {
+    background-color: black;
+    min-width: 255px;
+}
+
+#listed-items {
+    padding: 10px 0;
+}
+/* Media query */
+@media screen and (max-width: 768px) {
+    #list-sidebar {
+        display: none;
+    };
+}
